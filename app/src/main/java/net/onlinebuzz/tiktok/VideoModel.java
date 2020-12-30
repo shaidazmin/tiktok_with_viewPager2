@@ -10,6 +10,9 @@ public class VideoModel {
         this.url = url;
     }
 
+    public VideoModel() {
+    }
+
     public String getDesc() {
         return desc;
     }

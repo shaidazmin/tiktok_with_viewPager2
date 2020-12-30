@@ -17,14 +17,18 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 import java.util.ArrayList;
 
-public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder> {
+public class VideoAdapter extends FirebaseRecyclerAdapter<VideoModel,VideoAdapter.MyViewHolder> {
 
-    ArrayList<VideoModel> videoModels ;
-
-    public VideoAdapter(ArrayList<VideoModel> videoModels) {
-        this.videoModels = videoModels;
+    public VideoAdapter(@NonNull FirebaseRecyclerOptions<VideoModel> options) {
+        super(options);
     }
 
+    @Override
+    protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull VideoModel model) {
+
+        holder.setData(model);
+
+    }
 
     @NonNull
     @Override
@@ -33,33 +37,44 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
         return new MyViewHolder(view);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.videoView.setVideoPath(videoModels.get(position).getUrl());
-        holder.title.setText(videoModels.get(position).getTitle());
+//    ArrayList<VideoModel> videoModels ;
+//
+//    public VideoAdapter(ArrayList<VideoModel> videoModels) {
+//        this.videoModels = videoModels;
+//    }
 
-        holder.desc.setText(videoModels.get(position).getDesc());
-        holder.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                holder.progressBar.setVisibility(View.GONE);
-                mediaPlayer.start();
-            }
-        });
+//    @Override
+//    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+//
+//        holder.setData(videoModels.get(position));
 
-        holder.videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                mediaPlayer.start();
-            }
-        });
-    }
+//        holder.videoView.setVideoPath(videoModels.get(position).getUrl());
+//        holder.title.setText(videoModels.get(position).getTitle());
+//
+//        holder.desc.setText(videoModels.get(position).getDesc());
+//        holder.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//            @Override
+//            public void onPrepared(MediaPlayer mediaPlayer) {
+//                holder.progressBar.setVisibility(View.GONE);
+//                mediaPlayer.start();
+//            }
+//        });
+//
+//        holder.videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//            @Override
+//            public void onCompletion(MediaPlayer mediaPlayer) {
+//                mediaPlayer.start();
+//            }
+//        });
+//    }
 
-    @Override
-    public int getItemCount() {
-        return videoModels.size();
-    }
+//    @Override
+//    public int getItemCount() {
+//        return videoModels.size();
+//    }
+
+
 
 
     class MyViewHolder extends RecyclerView.ViewHolder{
@@ -76,27 +91,27 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
             progressBar = (ProgressBar) itemView.findViewById(R.id.videoProgressBar);
         }
 
-//        void setData(VideoModel obj){
-//
-//            title.setText(obj.getTitle());
-//            desc.setText(obj.getDesc());
-//            videoView.setVideoPath(obj.getUrl());
-//
-//            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-//                @Override
-//                public void onPrepared(MediaPlayer mediaPlayer) {
-//                    progressBar.setVisibility(View.GONE);
-//                    mediaPlayer.start();
-//                }
-//            });
-//
-//            videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//                @Override
-//                public void onCompletion(MediaPlayer mediaPlayer) {
-//                    mediaPlayer.start();
-//                }
-//            });
-//        }
+        void setData(VideoModel obj){
+
+            title.setText(obj.getTitle());
+            desc.setText(obj.getDesc());
+            videoView.setVideoPath(obj.getUrl());
+
+            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mediaPlayer) {
+                    progressBar.setVisibility(View.GONE);
+                    mediaPlayer.start();
+                }
+            });
+
+            videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mediaPlayer.start();
+                }
+            });
+        }
     }
 
 }
